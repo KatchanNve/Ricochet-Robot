@@ -11,11 +11,17 @@ public class Fleet {
 
     public ArrayList<Ship> createFleet() {
         ArrayList<Ship> fleet = new ArrayList<Ship>();
-        fleet.add(Ship.AIRCRAFT);
-        fleet.add(Ship.CRUISER);
-        fleet.add(Ship.ANTI_DESTROYER);
-        fleet.add(Ship.ANTI_DESTROYER);
-        fleet.add(Ship.DESTROYER);
+        Ship aircraft = new Ship("AIRCRAFT", 5, 5);
+        Ship cruiser = new Ship("CRUISER", 4, 4);
+        Ship antiDestroyer1 = new Ship("ANTIDESTROYER", 3, 3);
+        Ship antiDestroyer2 = new Ship("ANTIDESTROYER", 3, 3);
+        Ship destroyer = new Ship("DESTROYER", 2, 2);
+
+        fleet.add(aircraft);
+        fleet.add(cruiser);
+        fleet.add(antiDestroyer1);
+        fleet.add(antiDestroyer2);
+        fleet.add(destroyer);
 
         return fleet;
     }

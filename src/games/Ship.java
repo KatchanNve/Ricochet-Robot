@@ -1,24 +1,16 @@
 package games;
 
-public enum Ship {
+public class Ship implements Box {
 
-    AIRCRAFT(5, 5), CRUISER(4, 4), ANTI_DESTROYER(3, 3), DESTROYER(2, 2);
-
-    private final int size;
-    private int life;
+    String type;
+    int size;
+    int life;
     // rajouter direction
 
-    private Ship(int size, int life) {
+    public Ship(String type, int size, int life) {
+        this.type = type;
         this.size = size;
         this.life = life;
-    }
-
-    public int getSize() {
-        return this.size;
-    }
-
-    public int getLife() {
-        return this.life;
     }
 
 }
