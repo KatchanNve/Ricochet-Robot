@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Fleet {
     ArrayList<Ship> fleet = createFleet();
+    int nbrShip;
 
     public Fleet(ArrayList<Ship> fleet) {
         this.fleet = fleet;
@@ -23,6 +24,10 @@ public class Fleet {
         fleet.add(antiDestroyer2);
         fleet.add(destroyer);
 
+        return fleet;
+    }
+
+    public ArrayList<Ship> getlistShip() {
         return fleet;
     }
 }

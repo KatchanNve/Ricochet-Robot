@@ -1,10 +1,10 @@
 package games;
 
-public class Void implements Box{
+public class ShipBox implements Box{
 
-    private boolean touch;
+    boolean touch;
 
-    public Void(){
+    public ShipBox(){
         touch = false;
     }
 

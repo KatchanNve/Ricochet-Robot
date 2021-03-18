@@ -1,9 +1,9 @@
 package games;
 
-public class Humain extends Player{
+public class Human extends Player{
     private final String NAME;
 
-    public Humain(Fleet fleet,String name){
+    public Human(Fleet fleet, String name){
         super(fleet);
         this.NAME = name;
     }
