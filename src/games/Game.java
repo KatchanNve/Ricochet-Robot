@@ -1,5 +1,8 @@
 package games;
 
+import java.util.HashMap;
+import java.util.Scanner;
+
 public class Game {
 
     private Player playerOne;
@@ -22,6 +25,39 @@ public class Game {
         Box box = getBoardOpponent().getBoard()[i][j];
         box.setTouch(true);
         currentPlayer.addListShotElement(i,j);
+    }
+
+    public boolean isValid(int i, int j){
+        if(i < 0 || i > 9 || j < 0 || j > 9){
+            return false;
+        }
+        else{
+            Pair<Integer, Integer> pair = new Pair<Integer,Integer>(i,j);
+            return !currentPlayer.getListShot().contains(pair);
+        }
+    }
+
+    public void play(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Votre coup ?");
+        String shot;
+        shot = scanner.next();
+        if(shot.length() != 2 && (shot.startsWith("A") || shot.startsWith("B") || shot.startsWith("C") || shot.startsWith("D") ||
+                shot.startsWith("E") || shot.startsWith("F") || shot.startsWith("G") || shot.startsWith("H") || shot.startsWith("I")
+                || shot.startsWith("J"))){
+            if(shot.endsWith("0") ||shot.endsWith("1") || shot.endsWith("2") ||shot.endsWith("3") ||shot.endsWith("4") ||shot.endsWith("5") ||
+                    shot.endsWith("6") ||shot.endsWith("7") ||shot.endsWith("8") ||shot.endsWith("9")){
+                Pair<Integer,Integer> pair = translation(shot);
+
+            }
+        }
+    }
+
+    public Pair<Integer,Integer> translation(String shot){
+        String[] list = shot.split("");
+        int j = Integer.parseInt(list[1]);
+        int i = Integer.parseInt(list[0]) - 44;
+        return new Pair<Integer,Integer>(i,j);
     }
 
     public boolean isOver(){
