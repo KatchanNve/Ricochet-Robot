@@ -6,7 +6,7 @@ public class BattleBoard {
 
     private Box[][] board;
 
-    public BattleBoard(){
+    public BattleBoard() {
         this.board = new Box[10][10];
     }
 
@@ -14,7 +14,7 @@ public class BattleBoard {
         return board;
     }
 
-    public void initBoard(){
+    public void initBoard() {
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
                 board[i][j] = new Void();
