@@ -2,7 +2,9 @@ package games;
 
 public interface Box {
 
-    abstract boolean getTouch();
-    abstract void setTouch(boolean touch);
+    boolean getTouch();
+    void setTouch(boolean touch);
+    //ne permet pas de savoir si le coup fait quelque chose. pk pas faire un classe tire
+
 
 }

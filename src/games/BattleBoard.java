@@ -1,9 +1,11 @@
 package games;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class BattleBoard {
 
+    @SuppressWarnings("all")
     private Box[][] board;
 
     public BattleBoard() {
@@ -22,9 +24,24 @@ public class BattleBoard {
         }
     }
 
-    public static void main(String[] args) {
-        BattleBoard batBoard = new BattleBoard();
-        batBoard.initBoard();
-        System.out.println(batBoard.getBoard()[0][0].toString());
+    public void printBoard(){
+        int countAlpha = 0;
+        System.out.print("  1 2 3 4 5 6 7 8 9 10");
+        for (int i = 0; i < 10; i++) {
+            System.out.print("\n");
+            String c = Character.toString(countAlpha + 'A');
+            System.out.print(c);
+            countAlpha++;
+            for (int j = 0; j < 10; j++) {
+                Object box =  board[i][j];
+                if(box instanceof ShipBox){
+                    System.out.print(" \033[0;31mO\033[0m");
+                }
+                else if(box instanceof Void){
+                    System.out.print(" \033[0;31mX\033[0m");
+                }
+            }
+        }
+        System.out.println("\n");
     }
 }

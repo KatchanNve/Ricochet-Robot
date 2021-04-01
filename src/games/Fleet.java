@@ -9,6 +9,9 @@ public class Fleet {
     public Fleet(ArrayList<Ship> fleet) {
         this.fleet = fleet;
     }
+    public Fleet() {
+        fleet = createFleet();
+    }
 
     public ArrayList<Ship> createFleet() {
         ArrayList<Ship> fleet = new ArrayList<Ship>();

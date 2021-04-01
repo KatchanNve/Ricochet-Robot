@@ -2,7 +2,7 @@ package games;
 
 import java.util.ArrayList;
 
-public class Ship {
+public class Ship{
 
     String type;
     int size;
@@ -17,7 +17,7 @@ public class Ship {
     }
 
     public ArrayList<ShipBox> getListShipBox() {
-        return listShipBox;
+        return listShipBox; //carre plus que bateau arrondi
     }
 
     public int getLife() {
