@@ -11,15 +11,32 @@ public class Game {
     private BattleBoard board_playerTwo;
     private Player currentPlayer;
 
+    public static void main(String[] args) {
+        Fleet fleetOne = new Fleet();
+        Fleet fleetTwo = new Fleet();
+        Player playerOne = new Player(fleetOne);
+        Player playerTwo = new Player(fleetTwo);
+        Game game = new Game(playerOne,playerTwo);
+        game.getBoard_playerOne().printBoard();
+        game.getBoard_playerTwo().printBoard();
+        game.play();
+        //game.getPlayerOne().getFleet().getlistShip().get(0).getListShipBox().get(0).setPosition(2,2);
+        game.getBoard_playerOne().printBoard();
+        game.getBoard_playerTwo().printBoard();
+    }
+
     public Game(Player playerOne, Player playerTwo){
         this.playerOne = playerOne;
         this.playerTwo = playerTwo;
         this.currentPlayer = playerOne;
-        board_playerOne = new BattleBoard();
+        board_playerOne = new BattleBoard(playerOne);
         board_playerOne.initBoard();
-        board_playerTwo = new BattleBoard();
+        board_playerOne.placeFleet();
+        board_playerTwo = new BattleBoard(playerTwo);
         board_playerTwo.initBoard();
+        board_playerTwo.placeFleet();
     }
+
 
     public void shoot(int i, int j){
         Box box = getBoardOpponent().getBoard()[i][j];
@@ -41,49 +58,48 @@ public class Game {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Votre coup ?");
         String shot;
-        Shoots validShoot = null;
+        Pair<Integer,Integer> translateShot;
         shot = scanner.next();
-        try{
-            validShoot = Shoots.valueOf(shot);
+        translateShot = translation(shot);
+        while (translateShot == null){
+            System.out.println("Votre coup n'est pas valide, veuillez suivre l'exemple suivant : A10 | G9");
+            shot = scanner.next();
+            translateShot = translation(shot);
         }
-        catch (IllegalArgumentException e){
-            while (!isValidShoot(shot)){
-                System.out.println("Ce coup est invalide, choisisez en un autre !");
-                shot = scanner.next();
-                try{
-                    validShoot = Shoots.valueOf(shot);
-                } catch (IllegalArgumentException ignored) {
-                }
-            }
-        }
-        System.out.println(validShoot);
+        getBoardOpponent().getBoard()[translateShot.getA()][translateShot.getB()].setTouch(true);
+        System.out.println(shot + " " + translateShot.getA() + " " + translateShot.getB());
 
     }
 
     //2 methode / transform int (-1) / et la partie lettre en chiffre
 
-    public static void main(String[] args) {
-        Fleet fleetOne = new Fleet();
-        Fleet fleetTwo = new Fleet();
-        Player playerOne = new Player(fleetOne);
-        Player playerTwo = new Player(fleetTwo);
-        Game game = new Game(playerOne,playerTwo);
-        //game.play();
 
-        //game.getPlayerOne().getFleet().getlistShip().get(0).getListShipBox().get(0).setPosition(2,2);
-        game.getBoard_playerOne().printBoard();
-        game.getBoard_playerTwo().printBoard();
+    public Pair<Integer, Integer> translation(String enter){
+        Pair<Integer,Integer> shot = new Pair<Integer, Integer>();
+        char letter = enter.charAt(0);
+        int letterToInteger = (int) letter - 'A';
+        if(letterToInteger >= 0 && letterToInteger < 10){
+            shot.setA(letterToInteger);
+        }
+        else{
+            return null;
+        }
+        String numberToString = enter.substring(1);
+        if(isNumeric(numberToString)){
+            int number = Integer.parseInt(numberToString);
+            if(number >= 0 && number <= 10){
+                shot.setB(number - 1);
+            }
+            else{
+                return null;
+            }
+        }
+        else{
+            return null;
+        }
+        return shot;
     }
 
-    public boolean isValidShoot(String shot){
-        try{
-            Shoots validShoot = Shoots.valueOf(shot);
-            return true;
-        }
-        catch (IllegalArgumentException e){
-            return false;
-        }
-    }
 
     public boolean isOver(){
         return currentPlayer.getFleet().getlistShip().isEmpty();
@@ -132,5 +148,22 @@ public class Game {
         else{
             return board_playerOne;
         }
+    }
+
+    public static int testInteger(String entry, Scanner scanner) {
+        while (!isNumeric(entry)) {
+            System.out.println("\033[0;31mErreur de saisie\033[0m : Veuillez rentrer une valeur correcte !");
+            entry = scanner.next();
+        }
+        return Integer.parseInt(entry);
+    }
+
+    public static boolean isNumeric(String strNum) {
+        try {
+            int d = Integer.parseInt(strNum);
+        } catch (NumberFormatException | NullPointerException nfe) {
+            return false;
+        }
+        return true;
     }
 }

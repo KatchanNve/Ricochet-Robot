@@ -11,6 +11,9 @@ public class Pair<A,B> {
        this.b = b;
     }
 
+    public Pair(){
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -22,6 +25,14 @@ public class Pair<A,B> {
     @Override
     public int hashCode() {
         return Objects.hash(a, b);
+    }
+
+    @Override
+    public String toString() {
+        return "Pair{" +
+                "a=" + a +
+                ", b=" + b +
+                '}';
     }
 
     public A getA() {

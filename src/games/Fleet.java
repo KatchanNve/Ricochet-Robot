@@ -15,7 +15,7 @@ public class Fleet {
 
     public ArrayList<Ship> createFleet() {
         ArrayList<Ship> fleet = new ArrayList<Ship>();
-        Ship aircraft = new Ship("AIRCRAFT", 5, 5);
+        Ship aircraft = new Ship("AIRCRAFT", 5,5);
         Ship cruiser = new Ship("CRUISER", 4, 4);
         Ship antiDestroyer1 = new Ship("ANTIDESTROYER", 3, 3);
         Ship antiDestroyer2 = new Ship("ANTIDESTROYER", 3, 3);

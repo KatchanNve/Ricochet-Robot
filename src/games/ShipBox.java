@@ -3,11 +3,15 @@ package games;
 public class ShipBox implements Box{
 
     boolean touch;
+    boolean lockcase;
     Pair<Integer,Integer> position;
+    Ship ship;
 
-    public ShipBox(int i, int j){
+    public ShipBox(int i, int j, Ship ship){
         position = new Pair<Integer,Integer>(i,j);
         touch = false;
+        this.ship = ship;
+        lockcase = true;
     }
 
     @Override
@@ -42,5 +46,15 @@ public class ShipBox implements Box{
 
     public void setPosition(int i, int j) {
         this.position = new Pair<Integer,Integer>(i,j);
+    }
+
+    @Override
+    public void setLockCase(boolean lockcase) {
+        this.lockcase = lockcase;
+    }
+
+    @Override
+    public boolean isLockCase() {
+        return false;
     }
 }
