@@ -1,17 +1,21 @@
 package games;
 
-public class ShipBox implements Box{
+public class ShipBox implements Box {
 
     boolean touch;
     boolean lockcase;
-    Pair<Integer,Integer> position;
+    Pair<Integer, Integer> position;
     Ship ship;
 
-    public ShipBox(int i, int j, Ship ship){
-        position = new Pair<Integer,Integer>(i,j);
+    public ShipBox(int i, int j, Ship ship) {
+        position = new Pair<Integer, Integer>(i, j);
         touch = false;
         this.ship = ship;
         lockcase = true;
+    }
+
+    public Ship getShip() {
+        return ship;
     }
 
     @Override
@@ -29,13 +33,11 @@ public class ShipBox implements Box{
     }
 
     public int getPosition(int index) {
-        if(index == 0){
+        if (index == 0) {
             return position.getA();
-        }
-        else if(index == 1){
+        } else if (index == 1) {
             return position.getB();
-        }
-        else{
+        } else {
             return -1;
         }
     }
@@ -45,7 +47,7 @@ public class ShipBox implements Box{
     }
 
     public void setPosition(int i, int j) {
-        this.position = new Pair<Integer,Integer>(i,j);
+        this.position = new Pair<Integer, Integer>(i, j);
     }
 
     @Override

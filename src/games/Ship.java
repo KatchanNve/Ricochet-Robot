@@ -3,17 +3,17 @@ package games;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Ship{
+public class Ship {
 
     private String type;
     private int size;
     private int life;
-    private Pair<Integer,Integer> beginPoint;
+    private Pair<Integer, Integer> beginPoint;
     private boolean direction;
     private ArrayList<ShipBox> listShipBox;
     // rajouter direction
 
-    //direction true : vertical (1,0) / false : Horirontal (0,1)
+    // direction true : vertical (1,0) / false : Horirontal (0,1)
     public Ship(String type, int size, int life) {
         this.type = type;
         this.size = size;
@@ -30,7 +30,7 @@ public class Ship{
     }
 
     public ArrayList<ShipBox> getListShipBox() {
-        return listShipBox; //carre plus que bateau arrondi
+        return listShipBox; // carre plus que bateau arrondi
     }
 
     public int getLife() {
@@ -61,7 +61,7 @@ public class Ship{
         this.life = life;
     }
 
-    public void setBeginPoint(Pair<Integer,Integer> beginPoint) {
+    public void setBeginPoint(Pair<Integer, Integer> beginPoint) {
         this.beginPoint = beginPoint;
     }
 

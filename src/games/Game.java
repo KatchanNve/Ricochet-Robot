@@ -16,16 +16,20 @@ public class Game {
         Fleet fleetTwo = new Fleet();
         Player playerOne = new Player(fleetOne);
         Player playerTwo = new Player(fleetTwo);
-        Game game = new Game(playerOne,playerTwo);
+        Game game = new Game(playerOne, playerTwo);
         game.getBoard_playerOne().printBoard();
         game.getBoard_playerTwo().printBoard();
         game.play();
-        //game.getPlayerOne().getFleet().getlistShip().get(0).getListShipBox().get(0).setPosition(2,2);
+        // game.getPlayerOne().getFleet().getlistShip().get(0).getListShipBox().get(0).setPosition(2,2);
+        game.getBoard_playerOne().printBoard();
+        game.getBoard_playerTwo().printBoard();
+        //
+        game.play();
         game.getBoard_playerOne().printBoard();
         game.getBoard_playerTwo().printBoard();
     }
 
-    public Game(Player playerOne, Player playerTwo){
+    public Game(Player playerOne, Player playerTwo) {
         this.playerOne = playerOne;
         this.playerTwo = playerTwo;
         this.currentPlayer = playerOne;
@@ -37,76 +41,89 @@ public class Game {
         board_playerTwo.placeFleet();
     }
 
-
-    public void shoot(int i, int j){
+    // ne sert à rien //peut-être aussi pour le addListShotElement car on comparer
+    // grâce au getTouch
+    // Vérifier si nous n'avons pas délaissé certains code
+    public void shoot(int i, int j) {
         Box box = getBoardOpponent().getBoard()[i][j];
         box.setTouch(true);
-        currentPlayer.addListShotElement(i,j);
+        currentPlayer.addListShotElement(i, j);
     }
 
-    public boolean isValid(int i, int j){
-        if(i < 0 || i > 9 || j < 0 || j > 9){
+    // voir si on s'en sert (normalement non)
+    public boolean isValid(int i, int j) {
+        if (i < 0 || i > 9 || j < 0 || j > 9) {
             return false;
-        }
-        else{
-            Pair<Integer, Integer> pair = new Pair<Integer,Integer>(i,j);
+        } else {
+            Pair<Integer, Integer> pair = new Pair<Integer, Integer>(i, j);
             return !currentPlayer.getListShot().contains(pair);
         }
     }
 
-    public void play(){
+    // voir pour corriger le redondance de code
+    public void play() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Votre coup ?");
         String shot;
-        Pair<Integer,Integer> translateShot;
+        Pair<Integer, Integer> translateShot;
         shot = scanner.next();
         translateShot = translation(shot);
-        while (translateShot == null){
-            System.out.println("Votre coup n'est pas valide, veuillez suivre l'exemple suivant : A10 | G9");
+        while (translateShot == null
+                || getBoardOpponent().getBoard()[translateShot.getA()][translateShot.getB()].getTouch()) {
+            if (translateShot == null) {
+                System.out.println(
+                        "Votre coup n'est pas valide, veuillez suivre l'exemple suivant : Lettre (A-J) + Nombre (1-10) ");
+
+            }
+            if (getBoardOpponent().getBoard()[translateShot.getA()][translateShot.getB()].getTouch()) {
+                System.out.println("Ce coup a déjà été joué, veuillez en choisir un autre : ");
+            }
             shot = scanner.next();
             translateShot = translation(shot);
+
         }
+
         getBoardOpponent().getBoard()[translateShot.getA()][translateShot.getB()].setTouch(true);
+
+        // une condition à peut-être déplacer (autre méthode)
+        Object box = getBoardOpponent().getBoard()[translateShot.getA()][translateShot.getB()];
+        if (box instanceof ShipBox) {
+           ((ShipBox) box).getShip().getlife()
+        }
+
         System.out.println(shot + " " + translateShot.getA() + " " + translateShot.getB());
 
     }
 
-    //2 methode / transform int (-1) / et la partie lettre en chiffre
-
-
-    public Pair<Integer, Integer> translation(String enter){
-        Pair<Integer,Integer> shot = new Pair<Integer, Integer>();
+    public Pair<Integer, Integer> translation(String enter) {
+        Pair<Integer, Integer> shot = new Pair<Integer, Integer>();
         char letter = enter.charAt(0);
         int letterToInteger = (int) letter - 'A';
-        if(letterToInteger >= 0 && letterToInteger < 10){
+        if (letterToInteger >= 0 && letterToInteger < 10) {
             shot.setA(letterToInteger);
-        }
-        else{
+        } else {
             return null;
         }
         String numberToString = enter.substring(1);
-        if(isNumeric(numberToString)){
+        if (isNumeric(numberToString)) {
             int number = Integer.parseInt(numberToString);
-            if(number >= 0 && number <= 10){
+            if (number >= 0 && number <= 10) {
                 shot.setB(number - 1);
-            }
-            else{
+            } else {
                 return null;
             }
-        }
-        else{
+        } else {
             return null;
         }
         return shot;
     }
 
-
-    public boolean isOver(){
+    public boolean isOver() {
         return currentPlayer.getFleet().getlistShip().isEmpty();
     }
 
-    public Player getWinner(){
-        if(isOver()){
+    public Player getWinner() {
+        if (isOver()) {
             return getOpponent();
         }
         return null;
@@ -132,20 +149,18 @@ public class Game {
         return playerTwo;
     }
 
-    public Player getOpponent(){
-        if(currentPlayer.equals(playerOne)){
+    public Player getOpponent() {
+        if (currentPlayer.equals(playerOne)) {
             return playerTwo;
-        }
-        else{
+        } else {
             return playerOne;
         }
     }
 
-    public BattleBoard getBoardOpponent(){
-        if(currentPlayer.equals(playerOne)){
+    public BattleBoard getBoardOpponent() {
+        if (currentPlayer.equals(playerOne)) {
             return board_playerTwo;
-        }
-        else{
+        } else {
             return board_playerOne;
         }
     }
