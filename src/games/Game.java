@@ -46,7 +46,6 @@ public class Game {
         currentPlayer.addListShotElement(i, j);
     }
 
-
     // voir pour corriger le redondance de code
     public void play() {
         Scanner scanner = new Scanner(System.in);
@@ -70,15 +69,15 @@ public class Game {
 
         }
 
-        shoot(translateShot.getA(),translateShot.getB());
+        shoot(translateShot.getA(), translateShot.getB());
 
         // une condition à peut-être déplacer (autre méthode)
         Object box = getBoardOpponent().getBoard()[translateShot.getA()][translateShot.getB()];
         if (box instanceof ShipBox) {
-           ((ShipBox) box).getShip().setLifeOccurence();
-           if(((ShipBox) box).getShip().isSink()){
+            ((ShipBox) box).getShip().setLifeOccurence();
+            if (((ShipBox) box).getShip().isSink()) {
                 getOpponent().getFleet().setNbrShipOccurence();
-           }
+            }
         }
         System.out.println(shot + " " + translateShot.getA() + " " + translateShot.getB());
     }
@@ -107,7 +106,7 @@ public class Game {
     }
 
     public boolean isOver() {
-        return currentPlayer.getFleet().getlistShip().isEmpty();
+        return currentPlayer.getFleet().isSink();
     }
 
     public Player getWinner() {
@@ -161,7 +160,7 @@ public class Game {
         }
     }
 
-    public void setCurrentPlayer(){
+    public void setCurrentPlayer() {
         this.currentPlayer = getOpponent();
     }
 
