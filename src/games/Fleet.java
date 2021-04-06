@@ -8,6 +8,7 @@ public class Fleet {
 
     public Fleet(ArrayList<Ship> fleet) {
         this.fleet = fleet;
+        nbrShip = 5;
     }
     public Fleet() {
         fleet = createFleet();
@@ -28,6 +29,22 @@ public class Fleet {
         fleet.add(destroyer);
 
         return fleet;
+    }
+
+    public void setNbrShip(int nbrShip) {
+        this.nbrShip = nbrShip;
+    }
+
+    public void setNbrShipOccurence() {
+        this.nbrShip--;
+    }
+
+    public int getNbrShip() {
+        return nbrShip;
+    }
+
+    public boolean isSink() {
+        return nbrShip <= 0;
     }
 
     public ArrayList<Ship> getlistShip() {

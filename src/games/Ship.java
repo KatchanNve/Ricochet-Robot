@@ -61,6 +61,10 @@ public class Ship {
         this.life = life;
     }
 
+    public void setLifeOccurence() {
+        this.life--;
+    }
+
     public void setBeginPoint(Pair<Integer, Integer> beginPoint) {
         this.beginPoint = beginPoint;
     }
@@ -75,5 +79,9 @@ public class Ship {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public boolean isSink(){
+        return this.life <= 0;
     }
 }

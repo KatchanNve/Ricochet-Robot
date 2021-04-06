@@ -17,16 +17,12 @@ public class Game {
         Player playerOne = new Player(fleetOne);
         Player playerTwo = new Player(fleetTwo);
         Game game = new Game(playerOne, playerTwo);
-        game.getBoard_playerOne().printBoard();
-        game.getBoard_playerTwo().printBoard();
+        game.getBoardCurrent().printBoard();
+        game.getBoardOpponent().printHiddenBoard();
         game.play();
-        // game.getPlayerOne().getFleet().getlistShip().get(0).getListShipBox().get(0).setPosition(2,2);
-        game.getBoard_playerOne().printBoard();
-        game.getBoard_playerTwo().printBoard();
-        //
-        game.play();
-        game.getBoard_playerOne().printBoard();
-        game.getBoard_playerTwo().printBoard();
+        game.getBoardCurrent().printBoard();
+        game.getBoardOpponent().printHiddenBoard();
+        game.setCurrentPlayer();
     }
 
     public Game(Player playerOne, Player playerTwo) {
@@ -50,15 +46,6 @@ public class Game {
         currentPlayer.addListShotElement(i, j);
     }
 
-    // voir si on s'en sert (normalement non)
-    public boolean isValid(int i, int j) {
-        if (i < 0 || i > 9 || j < 0 || j > 9) {
-            return false;
-        } else {
-            Pair<Integer, Integer> pair = new Pair<Integer, Integer>(i, j);
-            return !currentPlayer.getListShot().contains(pair);
-        }
-    }
 
     // voir pour corriger le redondance de code
     public void play() {
@@ -83,16 +70,17 @@ public class Game {
 
         }
 
-        getBoardOpponent().getBoard()[translateShot.getA()][translateShot.getB()].setTouch(true);
+        shoot(translateShot.getA(),translateShot.getB());
 
         // une condition à peut-être déplacer (autre méthode)
         Object box = getBoardOpponent().getBoard()[translateShot.getA()][translateShot.getB()];
         if (box instanceof ShipBox) {
-           ((ShipBox) box).getShip().getlife()
+           ((ShipBox) box).getShip().setLifeOccurence();
+           if(((ShipBox) box).getShip().isSink()){
+                getOpponent().getFleet().setNbrShipOccurence();
+           }
         }
-
         System.out.println(shot + " " + translateShot.getA() + " " + translateShot.getB());
-
     }
 
     public Pair<Integer, Integer> translation(String enter) {
@@ -163,6 +151,18 @@ public class Game {
         } else {
             return board_playerOne;
         }
+    }
+
+    public BattleBoard getBoardCurrent() {
+        if (currentPlayer.equals(playerOne)) {
+            return board_playerOne;
+        } else {
+            return board_playerTwo;
+        }
+    }
+
+    public void setCurrentPlayer(){
+        this.currentPlayer = getOpponent();
     }
 
     public static int testInteger(String entry, Scanner scanner) {

@@ -98,7 +98,6 @@ public class BattleBoard {
                 Object box =  board[i][j];
                 if(box instanceof Box){
                     if(((Box) box).getTouch()){
-                        System.err.println("HELLE JE SUIS UNE CASE VICTIME" + " " + i + " " + j);
                         if(box instanceof ShipBox){
                             System.out.print(" \033[0;31m0\033[0m");
                         }
@@ -115,6 +114,35 @@ public class BattleBoard {
                         }
                     }
                 }
+            }
+        }
+        System.out.println("\n");
+    }
+
+    public void printHiddenBoard(){
+        int countAlpha = 0;
+        System.out.print("  1 2 3 4 5 6 7 8 9 10");
+        for (int i = 0; i < 10; i++) {
+            System.out.print("\n");
+            String c = Character.toString(countAlpha + 'A');
+            System.out.print(c);
+            countAlpha++;
+            for (int j = 0; j < 10; j++) {
+                Object box =  board[i][j];
+                if(box instanceof Box){
+                    if(((Box) box).getTouch()){
+                        if(box instanceof ShipBox){
+                            System.out.print(" \033[0;31m0\033[0m");
+                        }
+                        else if(box instanceof Void){
+                            System.out.print(" \033[0;32mX\033[0m");
+                        }
+                    }
+                    else{
+                        System.out.print(" \033[0;34mX\033[0m");
+                    }
+                }
+
             }
         }
         System.out.println("\n");
