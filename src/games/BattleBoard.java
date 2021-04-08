@@ -40,7 +40,6 @@ public class BattleBoard {
             Pair<Integer,Integer> thisDelta = delta.get(direction);
             ArrayList<Pair<Integer,Integer>> listvalidPoint = listValidBeginPoint(direction, ship.getSize());
             Pair<Integer, Integer> beginPoint = listvalidPoint.get(random.nextInt(listvalidPoint.size()));
-            System.out.println(beginPoint.toString());
             ship.setBeginPoint(beginPoint);
             ship.setDirection(direction);
             Pair<Integer, Integer> point = new Pair<Integer,Integer>(ship.getBeginPoint().getA(),ship.getBeginPoint().getB());
@@ -85,8 +84,17 @@ public class BattleBoard {
         return listValidPoint;
     }
 
+    //refaire avec un boolean
 
     public void printBoard(){
+        printBoard(true);
+    }
+
+    public void printHiddenBoard(){
+        printBoard(false);
+    }
+
+    public void printBoard(boolean show){
         int countAlpha = 0;
         System.out.print("  1 2 3 4 5 6 7 8 9 10");
         for (int i = 0; i < 10; i++) {
@@ -97,7 +105,7 @@ public class BattleBoard {
             for (int j = 0; j < 10; j++) {
                 Object box =  board[i][j];
                 if(box instanceof Box){
-                    if(((Box) box).getTouch()){
+                    if(((Box) box).isTouch()){
                         if(box instanceof ShipBox){
                             System.out.print(" \033[0;31m0\033[0m");
                         }
@@ -119,32 +127,4 @@ public class BattleBoard {
         System.out.println("\n");
     }
 
-    public void printHiddenBoard(){
-        int countAlpha = 0;
-        System.out.print("  1 2 3 4 5 6 7 8 9 10");
-        for (int i = 0; i < 10; i++) {
-            System.out.print("\n");
-            String c = Character.toString(countAlpha + 'A');
-            System.out.print(c);
-            countAlpha++;
-            for (int j = 0; j < 10; j++) {
-                Object box =  board[i][j];
-                if(box instanceof Box){
-                    if(((Box) box).getTouch()){
-                        if(box instanceof ShipBox){
-                            System.out.print(" \033[0;31m0\033[0m");
-                        }
-                        else if(box instanceof Void){
-                            System.out.print(" \033[0;32mX\033[0m");
-                        }
-                    }
-                    else{
-                        System.out.print(" \033[0;34mX\033[0m");
-                    }
-                }
-
-            }
-        }
-        System.out.println("\n");
-    }
 }

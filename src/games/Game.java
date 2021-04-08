@@ -11,19 +11,6 @@ public class Game {
     private BattleBoard board_playerTwo;
     private Player currentPlayer;
 
-    public static void main(String[] args) {
-        Fleet fleetOne = new Fleet();
-        Fleet fleetTwo = new Fleet();
-        Player playerOne = new Player(fleetOne);
-        Player playerTwo = new Player(fleetTwo);
-        Game game = new Game(playerOne, playerTwo);
-        game.getBoardCurrent().printBoard();
-        game.getBoardOpponent().printHiddenBoard();
-        game.play();
-        game.getBoardCurrent().printBoard();
-        game.getBoardOpponent().printHiddenBoard();
-        game.setCurrentPlayer();
-    }
 
     public Game(Player playerOne, Player playerTwo) {
         this.playerOne = playerOne;
@@ -35,6 +22,20 @@ public class Game {
         board_playerTwo = new BattleBoard(playerTwo);
         board_playerTwo.initBoard();
         board_playerTwo.placeFleet();
+        while (!this.isOver()) {
+            this.getBoardCurrent().printBoard();
+            this.getBoardOpponent().printHiddenBoard();
+            this.play();
+            //fire change
+            this.getBoardCurrent().printBoard();
+            this.getBoardOpponent().printHiddenBoard();
+            this.setCurrentPlayer();
+        }
+        System.out.println("Le joueur qui a gagné est : " + this.getCurrentPlayer());
+    }
+
+    public Game(){
+        this(new Player(new Fleet()),new Player(new Fleet()));
     }
 
     // ne sert à rien //peut-être aussi pour le addListShotElement car on comparer
@@ -54,14 +55,13 @@ public class Game {
         Pair<Integer, Integer> translateShot;
         shot = scanner.next();
         translateShot = translation(shot);
-        while (translateShot == null
-                || getBoardOpponent().getBoard()[translateShot.getA()][translateShot.getB()].getTouch()) {
+        while (translateShot == null || getBoardOpponent().getBoard()[translateShot.getA()][translateShot.getB()].isTouch()) {
             if (translateShot == null) {
                 System.out.println(
                         "Votre coup n'est pas valide, veuillez suivre l'exemple suivant : Lettre (A-J) + Nombre (1-10) ");
 
             }
-            if (getBoardOpponent().getBoard()[translateShot.getA()][translateShot.getB()].getTouch()) {
+            else if (getBoardOpponent().getBoard()[translateShot.getA()][translateShot.getB()].isTouch()) {
                 System.out.println("Ce coup a déjà été joué, veuillez en choisir un autre : ");
             }
             shot = scanner.next();
@@ -79,7 +79,6 @@ public class Game {
                 getOpponent().getFleet().setNbrShipOccurence();
             }
         }
-        System.out.println(shot + " " + translateShot.getA() + " " + translateShot.getB());
     }
 
     public Pair<Integer, Integer> translation(String enter) {

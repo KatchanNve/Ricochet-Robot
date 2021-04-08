@@ -2,7 +2,8 @@ package games;
 
 public interface Box {
 
-    boolean getTouch();
+
+    boolean isTouch();
     void setTouch(boolean touch);
     boolean isLockCase();
     void setLockCase(boolean lockcase);

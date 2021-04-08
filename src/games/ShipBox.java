@@ -19,7 +19,7 @@ public class ShipBox implements Box {
     }
 
     @Override
-    public boolean getTouch() {
+    public boolean isTouch() {
         return touch;
     }
 

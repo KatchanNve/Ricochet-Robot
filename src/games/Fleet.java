@@ -12,6 +12,7 @@ public class Fleet {
     }
     public Fleet() {
         fleet = createFleet();
+        nbrShip = 5;
     }
 
     public ArrayList<Ship> createFleet() {
