@@ -57,6 +57,6 @@ public class ShipBox implements Box {
 
     @Override
     public boolean isLockCase() {
-        return false;
+        return lockcase;
     }
 }

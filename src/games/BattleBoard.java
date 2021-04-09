@@ -57,9 +57,9 @@ public class BattleBoard {
         ArrayList<Pair<Integer,Integer>> listValidPoint = new ArrayList<Pair<Integer,Integer>>();
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
+                boolean isValid = true;
                 if(!board[i][j].isLockCase()){
                     Pair<Integer,Integer> point = new Pair<Integer,Integer>(i,j);
-                    boolean isValid = true;
                     for (int k = 1; k < size; k++) {
                         point.setA(point.getA() + thisDelta.getA());
                         point.setB(point.getB() + thisDelta.getB());
@@ -74,13 +74,17 @@ public class BattleBoard {
                             break;
                         }
                     }
-                    if(isValid){
-                        listValidPoint.add(new Pair<Integer, Integer>(i,j));
-                    }
+                }
+                else{
+                    isValid = false;
+                }
+
+                if(isValid){
+                    listValidPoint.add(new Pair<Integer, Integer>(i,j));
                 }
             }
+
         }
-        System.out.println(listValidPoint.size());
         return listValidPoint;
     }
 
@@ -96,6 +100,7 @@ public class BattleBoard {
 
     public void printBoard(boolean show){
         int countAlpha = 0;
+        System.out.println(player);
         System.out.print("  1 2 3 4 5 6 7 8 9 10");
         for (int i = 0; i < 10; i++) {
             System.out.print("\n");
