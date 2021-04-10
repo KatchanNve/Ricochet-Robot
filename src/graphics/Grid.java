@@ -19,9 +19,9 @@ public class Grid {
     private JPanel battleBoard;
     private JPanel battleBoard2;
     private String COLS = "ABCDEFGHIJ";
-    Player player1=new Player(new Fleet());
-    Player player2=new Player(new Fleet());
-    Player currentPlayer = player1;
+    Human player1=new Human(new Fleet(),"Thomas");
+    Human player2=new Human(new Fleet(),"Babloche");
+    Human currentPlayer = player2;
     Box[][] first = setUp();
     Box[][] second = setUp();
     boolean clicked = false;
@@ -174,53 +174,6 @@ public class Grid {
         }
     }
 
-    public void createBoard2(JPanel board){
-        Box[][] second = setUp();
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
-                Object box = second[i][j];
-                if(box instanceof Box){
-                    if(((Box) box).isTouch()){
-                        if(box instanceof ShipBox){
-                            System.out.print(" \033[0;31m0\033[0m");
-                        }
-                        else if(box instanceof Void){
-                            System.out.print(" \033[0;32mX\033[0m");
-                        }
-                    }
-                    else{
-                        if(box instanceof ShipBox){
-                            JButton button = new JButton(new ImageIcon(getClass().getResource("/graphics/greenCircle.png")));
-                            button.setBackground(Color.WHITE);
-                            battleBoardSquares[j][i] = button;
-                        }
-                        else if(box instanceof Void){
-                            JButton button = new JButton();
-                            button.setBackground(Color.WHITE);
-                            battleBoardSquares[j][i] = button;
-                        }
-                    }
-                }
-            }
-        }
-        board.add(new JLabel(""));
-        for (int i = 0; i < 10; i++) {
-            //substring between i and i+1
-            board.add(new JLabel(COLS.substring(i, i+1),SwingConstants.CENTER));
-        }
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
-                switch (j) {
-                    case 0:
-                        board.add(new JLabel("" + (i + 1),
-                                SwingConstants.CENTER));
-                    default:
-                        board.add(battleBoardSquares[j][i]);
-                }
-            }
-        }
-    }
-
     public JComponent getBattleBoard() {
         return battleBoard;
     }
@@ -230,8 +183,8 @@ public class Grid {
     }
 
     public Box[][] setUp(){
-        Player playerOne = new Player(new Fleet());
-        BattleBoard board_playerOne = new BattleBoard(playerOne);
+        Human player = new Human(new Fleet(),"Hasti");
+        BattleBoard board_playerOne = new BattleBoard(player);
         board_playerOne.initBoard();
         board_playerOne.placeFleet();
         return board_playerOne.getBoard();
