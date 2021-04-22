@@ -18,7 +18,7 @@ public class Main {
         board.setMinimumSize(new Dimension(100, 100));
         board.setPreferredSize(new Dimension(100, 100));
         //board.setBorder(BorderFactory.createEmptyBorder(50,50,0, 0));
-        frame.setMinimumSize(new Dimension(900, 400));
+        frame.setMinimumSize(new Dimension(1100, 400));
         frame.setLocation(50, 50);
         frame.pack();
         frame.setVisible(true);

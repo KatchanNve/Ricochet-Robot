@@ -12,18 +12,20 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 
-public class Grid {
+public class Grid{
 
-    private JPanel game = new JPanel(new GridLayout(1, 2));
+    private JPanel game = new JPanel(new GridLayout(1, 3));
     private JButton[][] battleBoardSquares = new JButton[10][10];
     private JPanel battleBoard;
     private JPanel battleBoard2;
     private String COLS = "ABCDEFGHIJ";
     Human player1=new Human(new Fleet(),"Thomas");
     Human player2=new Human(new Fleet(),"Babloche");
-    Human currentPlayer = player2;
+    Human currentPlayer = player1;
+    JTextArea textArea=new JTextArea("hello");
     Box[][] first = setUp();
     Box[][] second = setUp();
+    Boolean over=currentPlayer.getFleet().isSink();
     boolean clicked = false;
 
     Grid() {
@@ -33,18 +35,22 @@ public class Grid {
     public void startGame(){
         battleBoard = new JPanel(new GridLayout(0, 11));
         battleBoard2 = new JPanel(new GridLayout(0, 11));
-        if(currentPlayer==player1) {
+        if (currentPlayer == player1) {
             createBoard(battleBoard);
             hideBoard(battleBoard2);
-        }
-        else{
+        } else {
             hideBoard(battleBoard);
             createBoard(battleBoard2);
         }
         game.add(battleBoard);
         game.add(battleBoard2);
+        textArea.setFont(new Font("Serif", Font.ITALIC, 16));
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
+        textArea.setBorder(new EmptyBorder(10,10,30,30));
+        game.add(textArea);
         battleBoard.setBorder(new EmptyBorder(10, 10, 30, 10));
-        battleBoard2.setBorder(new EmptyBorder(10, 10, 30, 30));
+        battleBoard2.setBorder(new EmptyBorder(10, 10, 30, 10));
         //game.add(battleBoard);
     }
 
@@ -55,24 +61,21 @@ public class Grid {
                 if(box instanceof Box){
                     if(((Box) box).isTouch()){
                         if(box instanceof ShipBox){
-                            System.out.print(" \033[0;31m0\033[0m");
+                            JButton button = new JButton();
+                            button.setIcon(new ImageIcon(getClass().getResource("/graphics/redCircle.png")));
+                            button.setBackground(Color.WHITE);
+                            battleBoardSquares[j][i] = button;
                         }
                         else if(box instanceof Void){
-                            System.out.print(" \033[0;32mX\033[0m");
+                            JButton button = new JButton();
+                            button.setIcon(new ImageIcon(getClass().getResource("/graphics/redCross.png")));
+                            button.setBackground(Color.WHITE);
+                            battleBoardSquares[j][i] = button;
                         }
                     }
                     else{
                         if(box instanceof ShipBox){
                             JButton button=new JButton();
-                            button.addActionListener(new ActionListener()
-                            {
-                                public void actionPerformed(ActionEvent e)
-                                {
-                                    button.setIcon(new ImageIcon(getClass().getResource("/graphics/redCross.png")));
-                                    button.setBackground(Color.WHITE);
-                                    ((ShipBox) box).isTouch();
-                                }
-                            });
                             button.setIcon(new ImageIcon(getClass().getResource("/graphics/greenCircle.png")));
                             button.setBackground(Color.WHITE);
                             battleBoardSquares[j][i] = button;
@@ -112,7 +115,7 @@ public class Grid {
                     if(((Box) box).isTouch()){
                         if(box instanceof ShipBox){
                             JButton button=new JButton();
-                            button.setIcon(new ImageIcon(getClass().getResource("/graphics/redCircle.png")));
+                            button.setIcon(new ImageIcon(getClass().getResource("/graphics/redCross.png")));
                             button.setBackground(Color.WHITE);
                             battleBoardSquares[j][i] = button;
                         }
@@ -133,6 +136,7 @@ public class Grid {
                                     button.setIcon(new ImageIcon(getClass().getResource("/graphics/redCircle.png")));
                                     button.setBackground(Color.WHITE);
                                     ((ShipBox) box).isTouch();
+                                    changePlayer();
                                 }
                             });
                             button.setBackground(Color.WHITE);
@@ -146,7 +150,8 @@ public class Grid {
                                 {
                                     button.setIcon(new ImageIcon(getClass().getResource("/graphics/greenCross.png")));
                                     button.setBackground(Color.WHITE);
-                                    //((ShipBox) box).isTouch();
+                                    ((Void) box).isTouch();
+                                    changePlayer();
                                 }
                             });
                             button.setBackground(Color.WHITE);
@@ -182,11 +187,25 @@ public class Grid {
         return game;
     }
 
+    /*@Override
+    public void ModelChange(Object source){
+        this.repaint();
+    }*/
+
     public Box[][] setUp(){
         Human player = new Human(new Fleet(),"Hasti");
         BattleBoard board_playerOne = new BattleBoard(player);
         board_playerOne.initBoard();
         board_playerOne.placeFleet();
         return board_playerOne.getBoard();
+    }
+
+    public void changePlayer(){
+        if (currentPlayer==player1){
+            currentPlayer=player2;
+        }
+        else{
+            currentPlayer=player1;
+        }
     }
 }

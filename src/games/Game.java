@@ -1,9 +1,11 @@
 package games;
 
+import graphics.AbstractModelListener;
+
 import java.util.HashMap;
 import java.util.Scanner;
 
-public class Game {
+public class Game extends AbstractModelListener {
 
     private Player playerOne;
     private Player playerTwo;
@@ -27,6 +29,8 @@ public class Game {
             this.getBoardOpponent().printHiddenBoard();
             this.play();
             //fire change
+            fireChange();
+            //fireChange applied
             this.getBoardCurrent().printBoard();
             this.getBoardOpponent().printHiddenBoard();
             this.setCurrentPlayer();
