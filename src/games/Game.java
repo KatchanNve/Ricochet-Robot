@@ -53,15 +53,27 @@ public class Game extends AbstractModelListener {
 
     // voir pour corriger le redondance de code
     public void play() {
-        Pair<Integer, Integer> shot = currentPlayer.getShoot();
-        while (getBoardOpponent().getBoard()[shot.getA()][shot.getB()].isTouch()) {
-            System.out.println("Ce coup a déjà été joué, veuillez en choisir un autre : ");
-            shot = currentPlayer.getShoot();
-        }
+            Pair<Integer, Integer> shot = currentPlayer.getShoot();
+            while (getBoardOpponent().getBoard()[shot.getA()][shot.getB()].isTouch()) {
+                System.out.println("Ce coup a déjà été joué, veuillez en choisir un autre : ");
+                shot = currentPlayer.getShoot();
+            }
 
-        shoot(shot.getA(), shot.getB());
+            shoot(shot.getA(), shot.getB());
 
-        Object box = getBoardOpponent().getBoard()[shot.getA()][shot.getB()];
+            Object box = getBoardOpponent().getBoard()[shot.getA()][shot.getB()];
+            if (box instanceof ShipBox) {
+                ((ShipBox) box).getShip().setLifeOccurence();
+                if (((ShipBox) box).getShip().isSink()) {
+                    getOpponent().getFleet().setNbrShipOccurence();
+                }
+            }
+    }
+
+    public void play(int i, int j){
+        shoot(j,i);
+
+        Object box = getBoardOpponent().getBoard()[j][i];
         if (box instanceof ShipBox) {
             ((ShipBox) box).getShip().setLifeOccurence();
             if (((ShipBox) box).getShip().isSink()) {
