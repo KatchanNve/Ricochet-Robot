@@ -1,6 +1,7 @@
 package games;
 
 import graphics.AbstractModelListener;
+import graphics.GUI;
 
 import java.util.HashMap;
 import java.util.Scanner;
@@ -36,6 +37,20 @@ public class Game extends AbstractModelListener {
             this.setCurrentPlayer();
         }
         System.out.println("Le joueur qui a gagné est : " + this.getOpponent());
+    }
+
+    public Game(Player playerOne, Player playerTwo, GUI gui) {
+        this(playerOne, playerTwo);
+        this.currentPlayer = playerOne;
+        board_playerOne = new BattleBoard(playerOne);
+        board_playerOne.initBoard();
+        board_playerOne.placeFleet();
+        board_playerTwo = new BattleBoard(playerTwo);
+        board_playerTwo.initBoard();
+        board_playerTwo.placeFleet();
+        while(!this.isOver()){
+            //a faire
+        }
     }
 
     public Game(){

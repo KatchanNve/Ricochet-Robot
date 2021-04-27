@@ -21,7 +21,7 @@ public class Grid{
     private String COLS = "ABCDEFGHIJ";
     Human player1=new Human(new Fleet(),"Thomas");
     Human player2=new Human(new Fleet(),"Babloche");
-
+    Game game=new Game(player1,player2);
     JTextArea textArea=new JTextArea("hello");
 
 
@@ -49,12 +49,12 @@ public class Grid{
         battleBoard.setBorder(new EmptyBorder(10, 10, 30, 10));
         battleBoard2.setBorder(new EmptyBorder(10, 10, 30, 10));
         //game.add(battleBoard);
-        Game game=new Game(player1,player2);
         createBoard(game.getBoardCurrent());
+        hideBoard(game.getBoardOpponent());
     }
 
     public void createBoard(BattleBoard battleBoard){
-        JPanel newPanel= new JPanel();
+        JPanel newPanel= new JPanel(new GridLayout(0, 11));
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
                 Object box =  battleBoard.getBoard()[i][j];
@@ -107,10 +107,11 @@ public class Grid{
         }
     }
 
-    public void hideBoard(JPanel board){
+    public void hideBoard(BattleBoard battleBoard){
+        JPanel newPanel= new JPanel(new GridLayout(0, 11));
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
-                Object box =  second[i][j];
+                Object box =  battleBoard.getBoard()[i][j];
                 if(box instanceof Box){
                     if(((Box) box).isTouch()){
                         if(box instanceof ShipBox){
@@ -137,7 +138,7 @@ public class Grid{
                                     button.setIcon(new ImageIcon(getClass().getResource("/graphics/redCircle.png")));
                                     button.setBackground(Color.WHITE);
                                     ((ShipBox) box).isTouch();
-                                    play(j,i);
+                                    game.play(i,j);
                                 }
                             });
                             button.setBackground(Color.WHITE);
@@ -160,19 +161,19 @@ public class Grid{
                 }
             }
         }
-        board.add(new JLabel(""));
+        newPanel.add(new JLabel(""));
         for (int i = 0; i < 10; i++) {
             //substring between i and i+1
-            board.add(new JLabel(COLS.substring(i, i+1),SwingConstants.CENTER));
+            newPanel.add(new JLabel(COLS.substring(i, i+1),SwingConstants.CENTER));
         }
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
                 switch (j) {
                     case 0:
-                        board.add(new JLabel("" + (i + 1),
+                        newPanel.add(new JLabel("" + (i + 1),
                                 SwingConstants.CENTER));
                     default:
-                        board.add(battleBoardSquares[j][i]);
+                        newPanel.add(battleBoardSquares[j][i]);
                 }
             }
         }
@@ -183,7 +184,7 @@ public class Grid{
     }
 
     public JComponent getGame() {
-        return game;
+        return panel;
     }
 
     /*@Override
