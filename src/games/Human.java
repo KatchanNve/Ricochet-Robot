@@ -37,7 +37,7 @@ public class Human implements Player{
         return translateShot;
     }
 
-    public void initListShot(){
+    private void initListShot(){
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
                 this.listShot.add(new Pair<Integer, Integer>(i,j));

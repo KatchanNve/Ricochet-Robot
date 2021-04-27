@@ -1,4 +1,6 @@
 package graphics;
+import games.Game;
+
 import java.awt.Dimension;
 
 import javax.swing.*;
@@ -6,8 +8,12 @@ import javax.swing.*;
 public class Main {
 
     public static void main(final String[] args) {
+        new GUI();
+    }
+}
 
-        Grid gb = new Grid();
+/*
+Grid gb = new Grid();
         JFrame frame = new JFrame("Battleship");
         JComponent board = gb.getGame();
         frame.add(board);
@@ -23,6 +29,4 @@ public class Main {
         frame.pack();
         frame.setVisible(true);
 
-    }
-
-}
+ */

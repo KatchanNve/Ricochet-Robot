@@ -3,7 +3,7 @@ package games;
 import java.util.ArrayList;
 
 public class Fleet {
-    ArrayList<Ship> fleet = createFleet();
+    ArrayList<Ship> fleet;
     int nbrShip;
 
     public Fleet(ArrayList<Ship> fleet) {

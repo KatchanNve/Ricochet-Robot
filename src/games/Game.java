@@ -15,7 +15,7 @@ public class Game extends AbstractModelListener {
     private Player currentPlayer;
 
 
-    public Game(Player playerOne, Player playerTwo) {
+    public Game(Player playerOne, Player playerTwo, boolean gui) {
         this.playerOne = playerOne;
         this.playerTwo = playerTwo;
         this.currentPlayer = playerOne;
@@ -26,41 +26,34 @@ public class Game extends AbstractModelListener {
         board_playerTwo.initBoard();
         board_playerTwo.placeFleet();
         while (!this.isOver()) {
-            this.getBoardCurrent().printBoard();
-            this.getBoardOpponent().printHiddenBoard();
-            this.play();
-            //fire change
-            fireChange();
-            //fireChange applied
-            this.getBoardCurrent().printBoard();
-            this.getBoardOpponent().printHiddenBoard();
+            if(!gui){
+                this.getBoardCurrent().printBoard();
+                this.getBoardOpponent().printHiddenBoard();
+                this.play();
+                this.getBoardCurrent().printBoard();
+                this.getBoardOpponent().printHiddenBoard();
+            }
+            else{
+                System.out.println("JE SUIS UN GUI");
+            }
             this.setCurrentPlayer();
         }
         System.out.println("Le joueur qui a gagné est : " + this.getOpponent());
     }
 
-    public Game(Player playerOne, Player playerTwo, GUI gui) {
-        this(playerOne, playerTwo);
-        this.currentPlayer = playerOne;
-        board_playerOne = new BattleBoard(playerOne);
-        board_playerOne.initBoard();
-        board_playerOne.placeFleet();
-        board_playerTwo = new BattleBoard(playerTwo);
-        board_playerTwo.initBoard();
-        board_playerTwo.placeFleet();
-        while(!this.isOver()){
-            //a faire
-        }
+    public Game(){
+        this(new Human(new Fleet(),"Joueur 1"),new Computer(new Fleet()),false);
     }
 
-    public Game(){
-        this(new Human(new Fleet(),"Joueur 1"),new Computer(new Fleet()));
+    public Game(boolean gui){
+        this(new Human(new Fleet(),"Joueur 1"),new Computer(new Fleet()),true);
     }
+
 
     // ne sert à rien //peut-être aussi pour le addListShotElement car on comparer
     // grâce au getTouch
     // Vérifier si nous n'avons pas délaissé certains code
-    public void shoot(int i, int j) {
+    private void shoot(int i, int j) {
         Box box = getBoardOpponent().getBoard()[i][j];
         box.setTouch(true);
         currentPlayer.deleteShotElement(i, j);

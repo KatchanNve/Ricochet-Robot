@@ -1,8 +1,6 @@
 package games;
 
-import java.awt.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -98,7 +96,7 @@ public class BattleBoard {
         printBoard(false);
     }
 
-    public void printBoard(boolean show){
+    private void printBoard(boolean show){
         int countAlpha = 0;
         System.out.println(player);
         System.out.print("  1 2 3 4 5 6 7 8 9 10");
@@ -119,11 +117,17 @@ public class BattleBoard {
                         }
                     }
                     else{
-                        if(box instanceof ShipBox){
-                            System.out.print(" 0");
+                        //show full
+                        if(show) {
+                            if (box instanceof ShipBox) {
+                                System.out.print(" 0");
+                            } else if (box instanceof Void) {
+                                System.out.print(" \033[0;34mX\033[0m");
+                            }
                         }
-                        else if(box instanceof Void){
-                            System.out.print(" \033[0;34mX\033[0m");
+                        //hiden
+                        else{
+                            System.out.print(" .");
                         }
                     }
                 }
