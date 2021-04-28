@@ -1,19 +1,13 @@
 package graphics;
-import games.Game;
-
 import java.awt.Dimension;
 
 import javax.swing.*;
 
 public class Main {
 
-    public static void main(final String[] args) {
+    public static void main(final String[] args){
         new GUI();
-    }
-}
-
-/*
-Grid gb = new Grid();
+        /*Grid gb = new Grid();
         JFrame frame = new JFrame("Battleship");
         JComponent board = gb.getGame();
         frame.add(board);
@@ -28,5 +22,6 @@ Grid gb = new Grid();
         frame.setLocation(50, 50);
         frame.pack();
         frame.setVisible(true);
-
- */
+        */
+    }
+}

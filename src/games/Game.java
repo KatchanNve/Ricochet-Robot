@@ -46,14 +46,13 @@ public class Game extends AbstractModelListener {
     }
 
     public Game(boolean gui){
-        this(new Human(new Fleet(),"Joueur 1"),new Computer(new Fleet()),true);
+        this(new Human(new Fleet(),"Joueur 1"),new Computer(new Fleet()),gui);
     }
-
 
     // ne sert à rien //peut-être aussi pour le addListShotElement car on comparer
     // grâce au getTouch
     // Vérifier si nous n'avons pas délaissé certains code
-    private void shoot(int i, int j) {
+    public void shoot(int i, int j) {
         Box box = getBoardOpponent().getBoard()[i][j];
         box.setTouch(true);
         currentPlayer.deleteShotElement(i, j);

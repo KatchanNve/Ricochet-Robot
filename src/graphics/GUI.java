@@ -9,10 +9,17 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class GUI {
 
     Game game;
+    int row, column;
+    JPanel jBattleBoard;
+    JPanel jBattleBoard2;
+    JPanel basePanel;
+    HashMap <JButton,Pair<Integer, Integer>> buttonList = new HashMap<JButton,Pair<Integer, Integer>>();
 
     public GUI() {
         game = new Game(true);
@@ -34,14 +41,14 @@ public class GUI {
     }
 
     public JComponent completeInterface(){
-        JPanel panel = new JPanel(new GridLayout(1, 3));
-        JPanel jBattleBoard = setupBoard(game.getBoardCurrent(),true);
-        JPanel jBattleBoard2 = setupBoard(game.getBoardOpponent(),false);
-        panel.add(jBattleBoard);
-        panel.add(jBattleBoard2);
+        basePanel = new JPanel(new GridLayout(1, 3));
+        jBattleBoard = setupBoard(game.getBoardCurrent(),true);
+        jBattleBoard2 = setupBoard(game.getBoardOpponent(),false);
+        basePanel.add(jBattleBoard);
+        basePanel.add(jBattleBoard2);
         jBattleBoard.setBorder(new EmptyBorder(10, 10, 30, 10));
         jBattleBoard2.setBorder(new EmptyBorder(10, 10, 30, 10));
-        return panel;
+        return basePanel;
     }
 
     public JPanel setupBoard(BattleBoard battleBoard, boolean show){
@@ -81,6 +88,15 @@ public class GUI {
                             JButton button = new JButton();
                             button.setBackground(Color.WHITE);
                             buttonBoard[j][i] = button;
+                            buttonList.put(button, new Pair<Integer,Integer>(i,j));
+                            button.addActionListener(new ActionListener()
+                            {
+                                public void actionPerformed(ActionEvent e)
+                                {
+                                    Pair<Integer,Integer> pair = buttonList.get(button);
+                                    changeState(pair.getA(), pair.getB(), basePanel);
+                                }
+                            });
                         }
                     }
                 }
@@ -104,5 +120,60 @@ public class GUI {
         }
         return panel;
     }
+
+    public void changeState(int i, int j, JPanel panel){
+        Pair<Integer, Integer> shot = new Pair<Integer, Integer>(0,0);
+        while (game.getBoardOpponent().getBoard()[i][j].isTouch()) {
+            System.out.println("Ce coup a déjà été joué, veuillez en choisir un autre : ");
+        }
+
+        if(game.getCurrentPlayer() instanceof Human){
+            System.out.println(shot.getA()+","+shot.getB());
+            shot.setA(i);
+            shot.setB(j);
+            System.out.println(shot.getA()+","+shot.getB());
+        }
+        else {
+            shot = game.getCurrentPlayer().getShoot();
+            if(shot == null){
+                System.out.println("c'est a cause du getshoot");
+            }
+        }
+
+        game.shoot(shot.getA(), shot.getB());
+
+        Object box = game.getBoardOpponent().getBoard()[shot.getA()][shot.getB()];
+        if (box instanceof ShipBox) {
+            ((ShipBox) box).getShip().setLifeOccurence();
+            if (((ShipBox) box).getShip().isSink()) {
+                game.getOpponent().getFleet().setNbrShipOccurence();
+            }
+        }
+
+        panel.remove(jBattleBoard);
+        panel.remove(jBattleBoard2);
+
+    }
+
+    /*while (!this.isOver()) {
+        if(!gui){
+            this.getBoardCurrent().printBoard();
+            this.getBoardOpponent().printHiddenBoard();
+            this.play();
+            this.getBoardCurrent().printBoard();
+            this.getBoardOpponent().printHiddenBoard();
+        }
+
+
+
+        shoot(shot.getA(), shot.getB());
+
+        Object box = getBoardOpponent().getBoard()[shot.getA()][shot.getB()];
+        if (box instanceof ShipBox) {
+            ((ShipBox) box).getShip().setLifeOccurence();
+            if (((ShipBox) box).getShip().isSink()) {
+                getOpponent().getFleet().setNbrShipOccurence();
+            }
+        }  */
 }
 
