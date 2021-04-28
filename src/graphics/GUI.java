@@ -5,19 +5,23 @@ import games.Box;
 import games.Void;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class GUI {
+
+    Game game;
+
     public GUI() {
-        Game game = new Game();
+        game = new Game(true);
+        initInterface();
     }
 
-    public JFrame initInterface(){
-        GUI gui = new GUI();
+    public void initInterface(){
         JFrame frame = new JFrame("Bataille navale");
-        JComponent panel = gui.getPanel();
+        JComponent panel = this.completeInterface();
         frame.add(panel);
         frame.setLocationByPlatform(true);
         frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);

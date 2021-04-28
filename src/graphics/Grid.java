@@ -1,4 +1,4 @@
-package graphics;
+/*package graphics;
 
 import games.*;
 import games.Box;
@@ -209,5 +209,6 @@ public class Grid{
             currentPlayer=player1;
             enemy=player2;
         }
-    }*/
+    }
 }
+*/
