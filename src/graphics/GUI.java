@@ -15,18 +15,18 @@ import java.util.HashMap;
 public class GUI {
 
     Game game;
-    int row, column;
     JPanel jBattleBoard;
     JPanel jBattleBoard2;
     JPanel basePanel;
     HashMap <JButton,Pair<Integer, Integer>> buttonList = new HashMap<JButton,Pair<Integer, Integer>>();
+    JFrame baseFrame;
 
     public GUI() {
         game = new Game(true);
-        initInterface();
+        baseFrame= initInterface();
     }
 
-    public void initInterface(){
+    public JFrame initInterface(){
         JFrame frame = new JFrame("Bataille navale");
         JComponent panel = this.completeInterface();
         frame.add(panel);
@@ -38,14 +38,32 @@ public class GUI {
         frame.setLocation(50, 50);
         frame.pack();
         frame.setVisible(true);
+        return frame;
     }
 
     public JComponent completeInterface(){
-        basePanel = new JPanel(new GridLayout(1, 3));
+        basePanel = new JPanel(new GridLayout(0, 2));
         jBattleBoard = setupBoard(game.getBoardCurrent(),true);
         jBattleBoard2 = setupBoard(game.getBoardOpponent(),false);
-        basePanel.add(jBattleBoard);
-        basePanel.add(jBattleBoard2);
+        /*if((game.getCurrentPlayer() instanceof Computer) || (game.getOpponent() instanceof Computer)) {
+            basePanel.add(jBattleBoard);
+            basePanel.add(jBattleBoard2);
+        }
+        else{
+            basePanel.add(jBattleBoard);
+            basePanel.add(jBattleBoard2);
+            JPanel panel= new JPanel();
+            JButton button = new JButton();
+            button.addActionListener(new ActionListener()
+            {
+                public void actionPerformed(ActionEvent e)
+                {
+                    System.out.println("I'm a button");
+                }
+            });
+            panel.add(button);
+            basePanel.add(panel);
+        }*/
         jBattleBoard.setBorder(new EmptyBorder(10, 10, 30, 10));
         jBattleBoard2.setBorder(new EmptyBorder(10, 10, 30, 10));
         return basePanel;
@@ -94,7 +112,12 @@ public class GUI {
                                 public void actionPerformed(ActionEvent e)
                                 {
                                     Pair<Integer,Integer> pair = buttonList.get(button);
-                                    changeState(pair.getA(), pair.getB(), basePanel);
+                                    if(!game.isOver()){
+                                        changeState(pair.getA(), pair.getB());
+                                    }
+                                    else{
+                                        System.out.println("La partie est terminée");
+                                    }
                                 }
                             });
                         }
@@ -121,7 +144,7 @@ public class GUI {
         return panel;
     }
 
-    public void changeState(int i, int j, JPanel panel){
+    public void changeState(int i, int j){
         Pair<Integer, Integer> shot = new Pair<Integer, Integer>(0,0);
         while (game.getBoardOpponent().getBoard()[i][j].isTouch()) {
             System.out.println("Ce coup a déjà été joué, veuillez en choisir un autre : ");
@@ -150,30 +173,12 @@ public class GUI {
             }
         }
 
-        panel.remove(jBattleBoard);
-        panel.remove(jBattleBoard2);
+        game.setCurrentPlayer();
 
+        jBattleBoard = setupBoard(game.getBoardCurrent(),true);
+        jBattleBoard2 = setupBoard(game.getBoardOpponent(),false);
+        baseFrame.dispose();
+        baseFrame = initInterface();
     }
-
-    /*while (!this.isOver()) {
-        if(!gui){
-            this.getBoardCurrent().printBoard();
-            this.getBoardOpponent().printHiddenBoard();
-            this.play();
-            this.getBoardCurrent().printBoard();
-            this.getBoardOpponent().printHiddenBoard();
-        }
-
-
-
-        shoot(shot.getA(), shot.getB());
-
-        Object box = getBoardOpponent().getBoard()[shot.getA()][shot.getB()];
-        if (box instanceof ShipBox) {
-            ((ShipBox) box).getShip().setLifeOccurence();
-            if (((ShipBox) box).getShip().isSink()) {
-                getOpponent().getFleet().setNbrShipOccurence();
-            }
-        }  */
 }
 
