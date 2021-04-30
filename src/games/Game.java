@@ -38,7 +38,7 @@ public class Game extends AbstractModelListener {
             }
             this.setCurrentPlayer();
         }
-        System.out.println("Le joueur qui a gagné est : " + this.getOpponent());
+        System.out.println("Le joueur qui a gagné est : " + this.getOpponent());*/
     }
 
     public Game(){

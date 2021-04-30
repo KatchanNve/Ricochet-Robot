@@ -34,7 +34,7 @@ public class GUI {
         frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
         panel.setMinimumSize(new Dimension(100, 100));
         panel.setPreferredSize(new Dimension(100, 100));
-        frame.setMinimumSize(new Dimension(1100, 400));
+        frame.setMinimumSize(new Dimension(800, 400));
         frame.setLocation(50, 50);
         frame.pack();
         frame.setVisible(true);
@@ -45,25 +45,8 @@ public class GUI {
         basePanel = new JPanel(new GridLayout(0, 2));
         jBattleBoard = setupBoard(game.getBoardCurrent(),true);
         jBattleBoard2 = setupBoard(game.getBoardOpponent(),false);
-        /*if((game.getCurrentPlayer() instanceof Computer) || (game.getOpponent() instanceof Computer)) {
-            basePanel.add(jBattleBoard);
-            basePanel.add(jBattleBoard2);
-        }
-        else{
-            basePanel.add(jBattleBoard);
-            basePanel.add(jBattleBoard2);
-            JPanel panel= new JPanel();
-            JButton button = new JButton();
-            button.addActionListener(new ActionListener()
-            {
-                public void actionPerformed(ActionEvent e)
-                {
-                    System.out.println("I'm a button");
-                }
-            });
-            panel.add(button);
-            basePanel.add(panel);
-        }*/
+        basePanel.add(jBattleBoard);
+        basePanel.add(jBattleBoard2);
         jBattleBoard.setBorder(new EmptyBorder(10, 10, 30, 10));
         jBattleBoard2.setBorder(new EmptyBorder(10, 10, 30, 10));
         return basePanel;
@@ -80,7 +63,12 @@ public class GUI {
                     if (((Box) box).isTouch()) {
                         if (box instanceof ShipBox) {
                             JButton button = new JButton();
-                            button.setIcon(new ImageIcon(getClass().getResource("/graphics/redCircle.png")));
+                            if (((ShipBox) box).getShip().isSink()){
+                                button.setIcon(new ImageIcon(getClass().getResource("/graphics/blackCircle.png")));
+                            }
+                            else {
+                                button.setIcon(new ImageIcon(getClass().getResource("/graphics/redCircle.png")));
+                            }
                             button.setBackground(Color.WHITE);
                             buttonBoard[j][i] = button;
                         } else if (box instanceof Void) {
@@ -93,7 +81,12 @@ public class GUI {
                         if(show) {
                             if (box instanceof ShipBox) {
                                 JButton button = new JButton();
-                                button.setIcon(new ImageIcon(getClass().getResource("/graphics/greenCircle.png")));
+                                if (((ShipBox) box).getShip().isSink()){
+                                    button.setIcon(new ImageIcon(getClass().getResource("/graphics/blackCircle.png")));
+                                }
+                                else {
+                                    button.setIcon(new ImageIcon(getClass().getResource("/graphics/greenCircle.png")));
+                                }
                                 button.setBackground(Color.WHITE);
                                 buttonBoard[j][i] = button;
                             } else if (box instanceof Void) {
@@ -107,19 +100,17 @@ public class GUI {
                             button.setBackground(Color.WHITE);
                             buttonBoard[j][i] = button;
                             buttonList.put(button, new Pair<Integer,Integer>(i,j));
-                            button.addActionListener(new ActionListener()
-                            {
-                                public void actionPerformed(ActionEvent e)
-                                {
-                                    Pair<Integer,Integer> pair = buttonList.get(button);
-                                    if(!game.isOver()){
+                            if (game.getCurrentPlayer() instanceof Computer) {
+                                changeState(i, j);
+                            } else {
+                                button.addActionListener(new ActionListener() {
+                                    public void actionPerformed(ActionEvent e) {
+                                        Pair<Integer, Integer> pair = buttonList.get(button);
                                         changeState(pair.getA(), pair.getB());
                                     }
-                                    else{
-                                        System.out.println("La partie est terminée");
-                                    }
-                                }
-                            });
+                                });
+                            }
+
                         }
                     }
                 }
@@ -145,20 +136,20 @@ public class GUI {
     }
 
     public void changeState(int i, int j){
-        Pair<Integer, Integer> shot = new Pair<Integer, Integer>(0,0);
+        game.getBoardCurrent().printBoard();
+        Pair<Integer, Integer> shot = new Pair<Integer, Integer>(0, 0);
         while (game.getBoardOpponent().getBoard()[i][j].isTouch()) {
             System.out.println("Ce coup a déjà été joué, veuillez en choisir un autre : ");
         }
 
-        if(game.getCurrentPlayer() instanceof Human){
-            System.out.println(shot.getA()+","+shot.getB());
+        if (game.getCurrentPlayer() instanceof Human) {
+            System.out.println(shot.getA() + "," + shot.getB());
             shot.setA(i);
             shot.setB(j);
-            System.out.println(shot.getA()+","+shot.getB());
-        }
-        else {
+            System.out.println(shot.getA() + "," + shot.getB());
+        } else {
             shot = game.getCurrentPlayer().getShoot();
-            if(shot == null){
+            if (shot == null) {
                 System.out.println("c'est a cause du getshoot");
             }
         }
@@ -175,10 +166,19 @@ public class GUI {
 
         game.setCurrentPlayer();
 
-        jBattleBoard = setupBoard(game.getBoardCurrent(),true);
-        jBattleBoard2 = setupBoard(game.getBoardOpponent(),false);
-        baseFrame.dispose();
-        baseFrame = initInterface();
+        if(game.isOver()){
+            System.out.println("La partie est terminée et " + game.getOpponent()+" a gagné!");
+            JOptionPane.showMessageDialog(baseFrame, "La partie est terminée et " + game.getOpponent() +" a gagné!");
+            baseFrame.dispose();
+        }
+
+        else {
+            jBattleBoard = setupBoard(game.getBoardCurrent(), true);
+            jBattleBoard2 = setupBoard(game.getBoardOpponent(), false);
+            baseFrame.dispose();
+            baseFrame = initInterface();
+        }
+
     }
 }
 
