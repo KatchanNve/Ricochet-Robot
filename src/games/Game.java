@@ -25,7 +25,7 @@ public class Game extends AbstractModelListener {
         board_playerTwo = new BattleBoard(playerTwo);
         board_playerTwo.initBoard();
         board_playerTwo.placeFleet();
-        while (!this.isOver()) {
+        /*while (!this.isOver()) {
             if(!gui){
                 this.getBoardCurrent().printBoard();
                 this.getBoardOpponent().printHiddenBoard();
