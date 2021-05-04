@@ -9,7 +9,6 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class GUI {
@@ -18,7 +17,7 @@ public class GUI {
     JPanel jBattleBoard;
     JPanel jBattleBoard2;
     JPanel basePanel;
-    HashMap <JButton,Pair<Integer, Integer>> buttonList = new HashMap<JButton,Pair<Integer, Integer>>();
+    HashMap <JButton, Pair<Integer, Integer>> buttonList = new HashMap<JButton,Pair<Integer, Integer>>();
     JFrame baseFrame;
 
     public GUI() {
@@ -64,16 +63,16 @@ public class GUI {
                         if (box instanceof ShipBox) {
                             JButton button = new JButton();
                             if (((ShipBox) box).getShip().isSink()){
-                                button.setIcon(new ImageIcon(getClass().getResource("/graphics/blackCircle.png")));
+                                button.setIcon(new ImageIcon(getClass().getResource("/resources/blackCircle.png")));
                             }
                             else {
-                                button.setIcon(new ImageIcon(getClass().getResource("/graphics/redCircle.png")));
+                                button.setIcon(new ImageIcon(getClass().getResource("/resources/redCircle.png")));
                             }
                             button.setBackground(Color.WHITE);
                             buttonBoard[j][i] = button;
                         } else if (box instanceof Void) {
                             JButton button = new JButton();
-                            button.setIcon(new ImageIcon(getClass().getResource("/graphics/redCross.png")));
+                            button.setIcon(new ImageIcon(getClass().getResource("/resources/redCross.png")));
                             button.setBackground(Color.WHITE);
                             buttonBoard[j][i] = button;
                         }
@@ -82,10 +81,10 @@ public class GUI {
                             if (box instanceof ShipBox) {
                                 JButton button = new JButton();
                                 if (((ShipBox) box).getShip().isSink()){
-                                    button.setIcon(new ImageIcon(getClass().getResource("/graphics/blackCircle.png")));
+                                    button.setIcon(new ImageIcon(getClass().getResource("/resources/blackCircle.png")));
                                 }
                                 else {
-                                    button.setIcon(new ImageIcon(getClass().getResource("/graphics/greenCircle.png")));
+                                    button.setIcon(new ImageIcon(getClass().getResource("/resources/greenCircle.png")));
                                 }
                                 button.setBackground(Color.WHITE);
                                 buttonBoard[j][i] = button;
@@ -118,7 +117,6 @@ public class GUI {
         }
         panel.add(new JLabel(""));
         for (int i = 0; i < 10; i++) {
-            //substring between i and i+1
             panel.add(new JLabel(letters.substring(i, i+1),SwingConstants.CENTER));
         }
         for (int i = 0; i < 10; i++) {
@@ -136,17 +134,14 @@ public class GUI {
     }
 
     public void changeState(int i, int j){
-        game.getBoardCurrent().printBoard();
         Pair<Integer, Integer> shot = new Pair<Integer, Integer>(0, 0);
         while (game.getBoardOpponent().getBoard()[i][j].isTouch()) {
             System.out.println("Ce coup a déjà été joué, veuillez en choisir un autre : ");
         }
 
         if (game.getCurrentPlayer() instanceof Human) {
-            System.out.println(shot.getA() + "," + shot.getB());
             shot.setA(i);
             shot.setB(j);
-            System.out.println(shot.getA() + "," + shot.getB());
         } else {
             shot = game.getCurrentPlayer().getShoot();
             if (shot == null) {

@@ -1,9 +1,7 @@
 package games;
 
 import graphics.AbstractModelListener;
-import graphics.GUI;
 
-import java.util.HashMap;
 import java.util.Scanner;
 
 public class Game extends AbstractModelListener {
@@ -25,20 +23,18 @@ public class Game extends AbstractModelListener {
         board_playerTwo = new BattleBoard(playerTwo);
         board_playerTwo.initBoard();
         board_playerTwo.placeFleet();
-        /*while (!this.isOver()) {
-            if(!gui){
+        if(!gui) {
+            while (!this.isOver()) {
                 this.getBoardCurrent().printBoard();
                 this.getBoardOpponent().printHiddenBoard();
                 this.play();
                 this.getBoardCurrent().printBoard();
                 this.getBoardOpponent().printHiddenBoard();
+
+                this.setCurrentPlayer();
             }
-            else{
-                System.out.println("JE SUIS UN GUI");
-            }
-            this.setCurrentPlayer();
+            System.out.println("Le joueur qui a gagné est : " + this.getOpponent());
         }
-        System.out.println("Le joueur qui a gagné est : " + this.getOpponent());*/
     }
 
     public Game(){
@@ -49,16 +45,12 @@ public class Game extends AbstractModelListener {
         this(new Human(new Fleet(),"Joueur 1"),new Computer(new Fleet()),gui);
     }
 
-    // ne sert à rien //peut-être aussi pour le addListShotElement car on comparer
-    // grâce au getTouch
-    // Vérifier si nous n'avons pas délaissé certains code
     public void shoot(int i, int j) {
         Box box = getBoardOpponent().getBoard()[i][j];
         box.setTouch(true);
         currentPlayer.deleteShotElement(i, j);
     }
 
-    // voir pour corriger le redondance de code
     public void play() {
             Pair<Integer, Integer> shot = currentPlayer.getShoot();
             while (getBoardOpponent().getBoard()[shot.getA()][shot.getB()].isTouch()) {

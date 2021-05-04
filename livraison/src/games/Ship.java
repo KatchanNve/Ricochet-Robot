@@ -11,7 +11,6 @@ public class Ship {
     private Pair<Integer, Integer> beginPoint;
     private boolean direction;
     private ArrayList<ShipBox> listShipBox;
-    // rajouter direction
 
     // direction true : vertical (1,0) / false : Horirontal (0,1)
     public Ship(String type, int size, int life) {
@@ -30,7 +29,7 @@ public class Ship {
     }
 
     public ArrayList<ShipBox> getListShipBox() {
-        return listShipBox; // carre plus que bateau arrondi
+        return listShipBox;
     }
 
     public int getLife() {

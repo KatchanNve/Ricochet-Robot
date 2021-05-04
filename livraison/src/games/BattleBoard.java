@@ -102,7 +102,7 @@ public class BattleBoard {
         System.out.print("  1 2 3 4 5 6 7 8 9 10");
         for (int i = 0; i < 10; i++) {
             System.out.print("\n");
-            String c = Character.toString(countAlpha + 'A');
+            String c = Character.toString((char) (countAlpha + 'A'));
             System.out.print(c);
             countAlpha++;
             for (int j = 0; j < 10; j++) {
